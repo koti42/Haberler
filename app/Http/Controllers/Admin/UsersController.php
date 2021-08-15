@@ -1,0 +1,149 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
+
+class UsersController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $users = User::with('roles')
+            ->paginate(20);
+        //  $user=User::all()->load('roles');
+        return view('admin.Users.index', compact('users'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $roles=Role::all();
+        return view('admin.Users.register',compact('roles'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(UserRequest $request)
+    {
+
+        $success = false;
+        try {
+            $user = User::create([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+            ]);
+            if ($user)
+            {
+                $role=Role::find($request->role_id);
+                $Saverole=$user->assignRole($role);
+                if($Saverole)
+                    $success = true;
+                else
+                    $success = false;
+
+            }
+
+            else
+                $success = false;
+        } catch (\Exception $exception) {
+            $success = false;
+            return redirect()->back()->with('error', 'Kayıt İşlemi Başarısız Lütfen Sistem Yöneticisine Başvurunuz!');
+
+        }
+        if ($success) {
+            DB::commit();
+            return redirect()->route('users.index')->with('success', 'Kayıt İşlemi Başarılı');
+        }
+
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+
+        try {
+            $roles=Role::all();
+            $user = User::findOrFail($id)->load('roles');
+            return view('admin.Users.edit', compact('user','roles'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
+        }
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+
+        try {
+            $role=Role::findOrFail($request->role_id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+            $user->assignRole($role);
+            return redirect()->route('users.index')->with('success', 'Kayıt Günceleme İşlemi Başarıyla Tamamlandı!');
+        }
+        catch (ModelNotFoundException $exception){
+            return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
+        }
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user, Request $request)
+    {
+        $user->id = $request->id;
+        $user->delete();
+        return redirect()->back()->with('success', 'Kayıt Silme İşlemi Başarıyla Tamamlandı!');
+
+    }
+}
