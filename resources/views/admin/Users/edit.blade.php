@@ -62,18 +62,6 @@
 
         <label for="email"><b>Email Adresi</b></label>
         <input type="text" placeholder="Mail Giriniz" value ="{{$user->email}}" name="email"  required minlength="8" maxlength="90">
-        <select name="role_id" style="background: #f1f1f1"  class="form-control">
-
-            @foreach($roles as $role)
-                @foreach($user->roles as $role2)
-                    @if($role2->id===$role->id)
-                <option style="background-color: #f1f1f1" value="{{ $role->id }}" selected>{{$role->name}}</option>
-                    @else
-                        <option style="background-color: #f1f1f1" value="{{ $role->id }}">{{$role->name}}</option>
-                    @endif
-                        @endforeach
-            @endforeach
-        </select>
         <button type="submit" class="registerbtn">Kayıt Düzenle</button>
     </div>
 

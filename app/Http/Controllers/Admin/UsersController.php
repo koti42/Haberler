@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class UsersController extends Controller
 {
@@ -118,16 +119,14 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
+        //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
         try {
-            $role=Role::findOrFail($request->role_id);
             $user->name = $request->name;
             $user->email = $request->email;
             $user->save();
-            $user->assignRole($role);
             return redirect()->route('users.index')->with('success', 'Kayıt Günceleme İşlemi Başarıyla Tamamlandı!');
         }
-        catch (ModelNotFoundException $exception){
+        catch (Throwable $exception){
             return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
         }
 

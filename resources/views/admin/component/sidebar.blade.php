@@ -59,54 +59,55 @@
             </a>
           </li>
 
-            <li class="nav-item">
+              <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-newspaper"></i>
+              <p>
+                Kullanıcı İşlemleri
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
                 <a href="{{route('users.index')}}" class="nav-link">
-                    <i class="fab fa-artstation"></i>
-                    <p>
-                        Kullanıcıları Listele
-                    </p>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kullanıcı Listesi</p>
                 </a>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a href="{{route('users.create')}}" class="nav-link">
-                    <i class="fab fa-artstation"></i>
-                    <p>
-                        Kullanıcı Ekle
-                    </p>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kullanıcı Ekle</p>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('roles.index')}}" class="nav-link">
-                    <i class="fab fa-artstation"></i>
-                    <p>
-                        Rol Listele
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('roles.create')}}" class="nav-link">
-                    <i class="fab fa-artstation"></i>
-                    <p>
-                        Rol Ekle
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('permission.index')}}" class="nav-link">
-                    <i class="fab fa-artstation"></i>
-                    <p>
-                        İzinleri Listele
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('permission.create')}}" class="nav-link">
-                    <i class="fab fa-artstation"></i>
-                    <p>
-                        İzin Ekle
-                    </p>
-                </a>
-            </li>
+              </li>
+                <li class="nav-item">
+                    <a href="{{route('roles.index')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>
+                            Rol Listele
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route('roles.create')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>
+                            Rol Ekle
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('permission.index')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>
+                            İzinleri Listele
+                        </p>
+                    </a>
+                </li>
+            </ul>
+          </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

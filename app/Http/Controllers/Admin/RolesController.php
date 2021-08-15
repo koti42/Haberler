@@ -49,7 +49,7 @@ class RolesController extends Controller
             Role::create([
                 'name' => slugify($request['name']),
                 'guard_name' => 'web',
-                'description' => 'New Create Permission',
+                'description' => 'New Create Roles',
                 'is_show_admin' => $request['role_id'],
                 'slug' => 'undefined'
             ]);

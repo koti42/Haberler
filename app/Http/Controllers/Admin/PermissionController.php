@@ -31,7 +31,6 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('admin.Permission.PermissionRegister');
     }
 
     /**
@@ -43,21 +42,6 @@ class PermissionController extends Controller
      */
     public function store(PermissionRequest $request)
     {
-
-  $perm=Permission::whereName(slugify($request))->first();
-
-  if(!$perm)
-  {
-      Permission::create([
-         'name'=>slugify($request['name']),
-         'guard_name'=>'web',
-         'description'=>'New Create Permission'
-      ]);
-      return redirect()->route('permission.index')->with('success','Yetki Başarıyla Eklendi');
-  }
-  else
-      return redirect()->route('permission.index')->with('error','Yetki Eklenemedi');
-
     }
 
     /**
@@ -79,20 +63,6 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        try {
-            $Per = Permission::findOrFail($id);
-            $control=[1,2,3,4,5];
-            foreach ($control as $cont)
-            {
-                if($cont==$id)
-                {
-                    return redirect()->route('permission.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
-                }
-            }
-            return view('Admin.Permission.PermissionEdit', compact('Per'));
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('permission.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
-        }
     }
 
     /**
@@ -103,17 +73,7 @@ class PermissionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Permission $permission)
-    {//ModelNotFoundException metodu findOrFail'de karşılığı gelmeyen sorgularda Hata yakalar.
-
-        try {
-            $per=Permission::findOrFail($request->permission_id);
-            $permission->name =slugify($request['name']);
-            $permission->save();
-            return redirect()->route('permission.index')->with('success', 'Yetki Günceleme İşlemi Başarıyla Tamamlandı!');
-        }
-        catch (ModelNotFoundException $exception){
-            return redirect()->route('permission.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
-        }
+    {
     }
 
     /**
@@ -125,12 +85,5 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission,Request $request)
     {
-
-        $permission->id = $request->id;
-        if($permission->is_main!==1)
-        $permission->delete();
-
-        return redirect()->route('permission.index')->with('success', 'Kayıt Silme İşlemi Başarıyla Tamamlandı!');
-
     }
 }
