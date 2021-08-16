@@ -35,8 +35,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles=Role::all();
-        return view('admin.Users.register',compact('roles'));
+        $roles = Role::all();
+        return view('admin.Users.register', compact('roles'));
     }
 
     /**
@@ -55,18 +55,15 @@ class UsersController extends Controller
                 'email' => $request['email'],
                 'password' => bcrypt($request['password']),
             ]);
-            if ($user)
-            {
-                $role=Role::find($request->role_id);
-                $Saverole=$user->assignRole($role);
-                if($Saverole)
+            if ($user) {
+                $role = Role::find($request->role_id);
+                $Saverole = $user->assignRole($role);
+                if ($Saverole)
                     $success = true;
                 else
                     $success = false;
 
-            }
-
-            else
+            } else
                 $success = false;
         } catch (\Exception $exception) {
             $success = false;
@@ -102,9 +99,9 @@ class UsersController extends Controller
     {
 
         try {
-            $roles=Role::all();
+            $roles = Role::all();
             $user = User::findOrFail($id)->load('roles');
-            return view('admin.Users.edit', compact('user','roles'));
+            return view('admin.Users.edit', compact('user', 'roles'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
         }
@@ -119,18 +116,37 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
-        try {
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->save();
-            return redirect()->route('users.index')->with('success', 'Kayıt Günceleme İşlemi Başarıyla Tamamlandı!');
-        }
-        catch (Throwable $exception){
-            return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
+
+        $roles = auth()->user()->roles()->get();
+        $cont="";
+        foreach ($roles as $rol) {
+            $role = Role::find($rol->id)->load('permissions');
+            foreach ($rol->permissions as $rols) {
+                $cont= $rols->name;
+                if($cont==='edit-user')
+                {
+                    try {
+                        $user->name = $request->name;
+                        $user->email = $request->email;
+                        $user->save();
+                        return redirect()->route('users.index')->with('success', 'Kayıt Günceleme İşlemi Başarıyla Tamamlandı!');
+                    } catch (Throwable $exception) {
+                        return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
+                    }
+                }
+
+            }
+            return redirect()->route('users.index')->with('error', 'Bunun İçin Yetkiniz Yok!, Lütfen Sistem Yöneticisine Başvurunuz!');
         }
 
-    }
+
+    //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
+
+
+}
+
+
+
 
     /**
      * Remove the specified resource from storage.

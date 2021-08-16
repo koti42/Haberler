@@ -91,7 +91,7 @@
 
                 <li class="nav-item">
                     <a href="{{route('roles.create')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="far fa-calendar-plus nav-icon"></i>
                         <p>
                             Rol Ekle
                         </p>
