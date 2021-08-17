@@ -55,6 +55,12 @@
             "is_main": "1",
             "guard_name": "web",
             "description": ""
+        },
+        "create-permissions": {
+            "name": "create-permission",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
         }
     },
     "default_user": {

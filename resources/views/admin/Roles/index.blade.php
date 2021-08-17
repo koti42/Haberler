@@ -72,7 +72,7 @@
                                         Rolleri Düzenle
                                     </button>
                                 @else
-                                    <b>Bu Roller Düzenlenemez</b>
+                                    <b>Roller Düzenlenemez</b>
                                 @endif
                             </td>
                             <td>

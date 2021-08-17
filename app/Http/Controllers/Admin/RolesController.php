@@ -43,6 +43,12 @@ class RolesController extends Controller
      */
     public function store(RoleRequest $request)
     {
+        if(!$request->user()->roles->flatMap->permissions->contains('name', 'create-user')) {
+            return redirect()
+                ->route('roles.index')
+                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+        }
+
         $perm = Role::whereName(slugify($request))->first();
 
         if (!$perm) {
@@ -101,6 +107,11 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!$request->user()->roles->flatMap->permissions->contains('name', 'edit-user')) {
+            return redirect()
+                ->route('roles.index')
+                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+        }
         try {
             $role = Role::findOrFail($id);
             $role->name = slugify($request['name']);
@@ -118,8 +129,13 @@ class RolesController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
+        if(!$request->user()->roles->flatMap->permissions->contains('name', 'delete-user')) {
+            return redirect()
+                ->route('roles.index')
+                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+        }
         $Rol = Role::findOrFail($id);
         if ($Rol->is_main !== 1)
             $Rol->delete();
@@ -135,6 +151,11 @@ class RolesController extends Controller
     }
     public function ManagePermissionStore(Request $request)
     {
+        if(!$request->user()->roles->flatMap->permissions->contains('name', 'create-permission')) {
+            return redirect()
+                ->route('roles.index')
+                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+        }
 //return $request->all();
         $role=Role::find($request->id);
         $permissions=Permission::all();

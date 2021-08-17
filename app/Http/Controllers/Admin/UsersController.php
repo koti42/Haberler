@@ -47,6 +47,11 @@ class UsersController extends Controller
      */
     public function store(UserRequest $request)
     {
+        if(!$request->user()->roles->flatMap->permissions->contains('name', 'create-user')) {
+            return redirect()
+                ->route('users.create')
+                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+        }
 
         $success = false;
         try {
@@ -116,29 +121,43 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
-        try {
-            $roles = auth()->user()->roles()->first();
-            $role = Role::findOrFail($roles->id)->load('permissions');
-            foreach ($role->permissions as $rol) {
-                    if($rol->name==='edit-user')
-                    {
-                        try {
-                            $user->name = $request->name;
-                            $user->email = $request->email;
-                            $user->save();
-                            return redirect()->route('users.index')->with('success', 'Kayıt Günceleme İşlemi Başarıyla Tamamlandı!');
-                        } catch (Throwable $exception) {
-                            return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
-                        }
-                    }
-            }
-            return redirect()->route('users.index')->with('error', 'Bunun İçin Yetkiniz Yok!, Lütfen Sistem Yöneticisine Başvurunuz!');
+        // Kullanıcı birden fazla role sahip ise tüm yetkileri derlemeniz lazım
+        if(!$request->user()->roles->flatMap->permissions->contains('name', 'edit-user')) {
+            return redirect()
+                ->route('users.index')
+                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
         }
-       catch (ModelNotFoundException $exception)
-       {
-           return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
-       }
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save();
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Kayıt günceleme işlemi başarıyla tamamlandı!');
+
+//        try {
+//            $roles = auth()->user()->roles()->first();
+//            $role = Role::findOrFail($roles->id)->load('permissions');
+//            foreach ($role->permissions as $rol) {
+//                    if($rol->name==='edit-user')
+//                    {
+//                        try {
+//                            $user->name = $request->name;
+//                            $user->email = $request->email;
+//                            $user->save();
+//                            return redirect()->route('users.index')->with('success', 'Kayıt Günceleme İşlemi Başarıyla Tamamlandı!');
+//                        } catch (Throwable $exception) {
+//                            return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
+//                        }
+//                    }
+//            }
+//            return redirect()->route('users.index')->with('error', 'Bunun İçin Yetkiniz Yok!, Lütfen Sistem Yöneticisine Başvurunuz!');
+//        }
+//       catch (ModelNotFoundException $exception)
+//       {
+//           return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
+//       }
 
 
     //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
@@ -157,9 +176,16 @@ class UsersController extends Controller
      */
     public function destroy(User $user, Request $request)
     {
+        if(!$request->user()->roles->flatMap->permissions->contains('name', 'delete-user')) {
+            return redirect()
+                ->route('users.index')
+                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+        }
         $user->id = $request->id;
         $user->delete();
-        return redirect()->back()->with('success', 'Kayıt Silme İşlemi Başarıyla Tamamlandı!');
+        return redirect()
+            ->back()
+            ->with('success', 'Kayıt Silme İşlemi Başarıyla Tamamlandı!');
 
     }
 }
