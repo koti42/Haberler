@@ -28,7 +28,6 @@ Route::prefix('password/reset')->group(function () {
 });
 
 //Admin kontrol paneli route tanımları
-
 Route::prefix('admin')->group(function () {
     Route::middleware(['Adminn'])->group(function () {
         Route::get('/', [DashbordController::class, 'index'])->name('admin.dashboard');
@@ -37,7 +36,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/category/create', [CategoryController::class, 'create'])->name('admin.category.create');
         Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store');
         Route::get('/editcategory/{id2}', [CategoryController::class, 'getCategory']);
-
+        Route::get('/exit', [DashbordController::class, 'exit'])->name('admin.exit');
         Route::get('/category/getAll', [CategoryController::class, 'getAll'])->name('admin.category.getAll');
         Route::get('/manage-role/{role}',[RolesController::class,'ManagePermission'])->name('roles.manage-permissions');
         Route::post('/manage-role-permissions',[RolesController::class,'ManagePermissionStore'])->name('roles.manage-permissionsStore');

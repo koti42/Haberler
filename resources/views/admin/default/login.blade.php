@@ -31,7 +31,7 @@
                             Swal.fire({
                                 position: 'middle',
                                 icon: 'success',
-                                title: 'Şifre Değiştirme Başarılı!',
+                                title: 'BAŞARILI!!',
                                 text: '{{ session()->get('success') }}',
                                 showConfirmButton: true,
                                 confirmButtonText:"Tamam!",
@@ -80,7 +80,7 @@
                                 </label>
                             </div>
                             <div class="w-50 text-md-right">
-                                <a href="{{route('reset.password')}}" style="color: #fff">Şifremi unuttum.</a>
+                                <a href="{{route('reset.password')}}">Şifremi unuttum.</a>
                             </div>
                         </div>
                     </form>
@@ -96,6 +96,9 @@
 <script src="/back/login/js/popper.js"></script>
 <script src="/back/login/js/bootstrap.min.js"></script>
 <script src="/back/login/js/main.js"></script>
+<STYLE>
+
+</STYLE>
 
 </body>
 </html>

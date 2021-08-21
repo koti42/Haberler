@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class DefaultController extends Controller
 {
     public function index()
     {
+        Config::set('database.connections.mysql.database','news');
+        Config::set('database.connections.mysql.username','root');
         return view('index');
 
     }

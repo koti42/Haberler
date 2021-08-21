@@ -7,6 +7,9 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('admin.dashboard')}}" class="nav-link">Anasayfa</a>
       </li>
+        <li class="nav-item d-none d-sm-inline-block float-right">
+            <a href="{{route('admin.exit')}}" class="nav-link">Çıkış</a>
+        </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link"></a>
       </li>

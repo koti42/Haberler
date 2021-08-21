@@ -23,7 +23,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::with('roles')
-            ->paginate(20);
+            ->paginate(12);
         //  $user=User::all()->load('roles');
         return view('admin.Users.index', compact('users'));
     }
@@ -70,7 +70,7 @@ class UsersController extends Controller
 
             } else
                 $success = false;
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             $success = false;
             return redirect()->back()->with('error', 'Kayıt İşlemi Başarısız Lütfen Sistem Yöneticisine Başvurunuz!');
 
@@ -121,20 +121,28 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // Kullanıcı birden fazla role sahip ise tüm yetkileri derlemeniz lazım
-        if(!$request->user()->roles->flatMap->permissions->contains('name', 'edit-user')) {
+        try {
+            // Kullanıcı birden fazla role sahip ise tüm yetkileri derlemeniz lazım
+            if(!$request->user()->roles->flatMap->permissions->contains('name', 'edit-user')) {
+                return redirect()
+                    ->route('users.index')
+                    ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+            }
+
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->save();
+
             return redirect()
                 ->route('users.index')
-                ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
+                ->with('success', 'Kayıt günceleme işlemi başarıyla tamamlandı!');
+        }
+        catch (Throwable $exception){
+            return redirect()
+                ->route('users.index')
+                ->with('error', 'Bilinmeyen Bir Hata  Oluştu Lütfen Sistem Yöneticisine Bildiriniz!');
         }
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->save();
-
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Kayıt günceleme işlemi başarıyla tamamlandı!');
 
 //        try {
 //            $roles = auth()->user()->roles()->first();

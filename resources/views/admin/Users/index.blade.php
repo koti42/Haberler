@@ -59,6 +59,8 @@
                                                     class="btn btn-sm btn-danger deleteUserButton">
                                                 Üye Sil
                                             </button>
+                                        @else
+                                            <b>Üye Silinemez!</b>
                                         @endif
                                     @endforeach
                                 </form>
