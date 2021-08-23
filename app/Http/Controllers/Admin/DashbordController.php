@@ -15,7 +15,9 @@ class DashbordController extends Controller
 {
     public function index()
     {
-        return view('admin.component.dashboard');
+        $finduser = Auth::user();
+        return view('admin.component.dashboard',compact('finduser'));
+
 
     }
     public function exit()

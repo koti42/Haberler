@@ -7,6 +7,7 @@ use App\Http\Requests\PermissionRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -18,7 +19,6 @@ class PermissionController extends Controller
      */
     public function index()
     {
-
         $Permission=DB::table('permissions')->orderBy('id','DESC')->paginate(10);
         return view('admin.Permission.index',compact('Permission'));
 
@@ -31,6 +31,13 @@ class PermissionController extends Controller
      */
     public function create()
     {
+
+//       $response = Http::get("https://graph.facebook.com/v11.0/me?", [
+//         'fields' => 'id,name,photos,posts',
+//         'access_token' => 'EAACSboAm4sUBABDusk145ZClOFZCUc57qxSBw1nKC0J6OptmallnnY1lNbJ2gQYR9VZA0gj4xoaiR4kxHRNHFhhdKTmyQACLiLKYsHZALdljRNOPlcZB4XVAiSDVLtwwvhdgL8rY80PgGeXVOKXuxYh6AZChGpBaSFforHogweZAzT3sXuFVQHkbHZA0ZCTTAt4IZD'
+//        ]);
+//return $response->json();
+
     }
 
     /**

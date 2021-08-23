@@ -59,6 +59,8 @@ class UsersController extends Controller
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => bcrypt($request['password']),
+                'google_id'=>'null',
+
             ]);
             if ($user) {
                 $role = Role::find($request->role_id);

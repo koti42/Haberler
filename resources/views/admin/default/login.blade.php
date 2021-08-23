@@ -82,7 +82,15 @@
                             <div class="w-50 text-md-right">
                                 <a href="{{route('reset.password')}}">Şifremi unuttum.</a>
                             </div>
+
                         </div>
+                        <div class="text-center">
+                            <a class="hollow button primary" href="{{route('auth.google')}}">
+                                <img width="25px" style="margin-bottom:6px; margin-right:9px" alt="Google login" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                           <font size="4px">Google İle Giriş Yap</font>
+                            </a>
+                        </div>
+
                     </form>
 
 

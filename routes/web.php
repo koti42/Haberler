@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Route;
 //Login ve .ENV Dosya kurulum routeları
 Route::get('sql/install', [DefaultController::class, 'index'])->name('install')->middleware('DataControl');
 
-
-
+Route::get('/redirect',[DefaultController::class,'redirectToProvider'])->name('auth.google');
+Route::get('/callback',[DefaultController::class,'handleProviderCallback']);
 Route::get('/', [DefaultController::class, 'login'])->name('Admin.login')->middleware('Login');
 Route::post('/', [DefaultController::class, 'authenticate'])->name('Admin.authenticate');
 
@@ -40,10 +40,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/category/getAll', [CategoryController::class, 'getAll'])->name('admin.category.getAll');
         Route::get('/manage-role/{role}',[RolesController::class,'ManagePermission'])->name('roles.manage-permissions');
         Route::post('/manage-role-permissions',[RolesController::class,'ManagePermissionStore'])->name('roles.manage-permissionsStore');
-
+        Route::post('/google-disconnect/{delete}',[DefaultController::class,'googleLogout'])->name('GoogleLogout');
         Route::post('/category/update', [CategoryController::class, 'updateCategory'])->name('category.update');
         Route::post('/category/delete', [CategoryController::class, 'deleteCategory'])->name('category.delete');
-
         Route::resource('users', '\App\Http\Controllers\Admin\UsersController');
         Route::resource('roles', '\App\Http\Controllers\Admin\RolesController');
         Route::resource('permission', '\App\Http\Controllers\Admin\PermissionController');
