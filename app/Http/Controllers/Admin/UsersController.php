@@ -59,7 +59,7 @@ class UsersController extends Controller
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => bcrypt($request['password']),
-                'google_id'=>'null',
+                'google_id'=>null,
 
             ]);
             if ($user) {
@@ -104,7 +104,6 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-
         try {
             $roles = Role::all();
             $user = User::findOrFail($id)->load('roles');
@@ -145,37 +144,10 @@ class UsersController extends Controller
                 ->with('error', 'Bilinmeyen Bir Hata  Oluştu Lütfen Sistem Yöneticisine Bildiriniz!');
         }
 
-
-//        try {
-//            $roles = auth()->user()->roles()->first();
-//            $role = Role::findOrFail($roles->id)->load('permissions');
-//            foreach ($role->permissions as $rol) {
-//                    if($rol->name==='edit-user')
-//                    {
-//                        try {
-//                            $user->name = $request->name;
-//                            $user->email = $request->email;
-//                            $user->save();
-//                            return redirect()->route('users.index')->with('success', 'Kayıt Günceleme İşlemi Başarıyla Tamamlandı!');
-//                        } catch (Throwable $exception) {
-//                            return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
-//                        }
-//                    }
-//            }
-//            return redirect()->route('users.index')->with('error', 'Bunun İçin Yetkiniz Yok!, Lütfen Sistem Yöneticisine Başvurunuz!');
-//        }
-//       catch (ModelNotFoundException $exception)
-//       {
-//           return redirect()->route('users.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
-//       }
-
-
     //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
 
 
 }
-
-
 
 
     /**

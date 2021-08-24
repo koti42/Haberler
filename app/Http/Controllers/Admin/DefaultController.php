@@ -44,12 +44,10 @@ class DefaultController extends Controller
      */
     public function googleLogout($id)
     {
-
         $googleMd = User::where('id', $id)->first();
         $googleMd->google_id = null;
         $googleMd->save();
         return redirect()->to('admin')->with('success', 'Google Bağlantısı  Başarıyla Kesildi!');
-
     }
 
     public function handleProviderCallback()
@@ -77,7 +75,6 @@ class DefaultController extends Controller
                     return redirect()->to('admin')->with('success', 'Google İle Hesap Bağlama Başarıyla Tamamlandı!');
                 } else
                     return redirect()->to('admin')->with('error', 'Bu Google Hesabı Daha Önce Başka Bir Hesap İle Eşleştirildi!');
-
 
             } else {
                 return redirect('/')->with('error', 'Daha Önce Bu Google Hesabı ile Bağlantı Yapılmamış!');

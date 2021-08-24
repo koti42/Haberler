@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="/back/login/css/style.css">
-
 </head>
 <body class="img js-fullheight" style="background-image: url(/back/login/images/bg.jpg);">
 <section class="ftco-section">
@@ -25,36 +24,6 @@
             <div class="col-md-6 col-lg-4">
                 <div class="login-wrap p-0">
                     <h3 class="mb-4 text-center">Bir Hesabınız var mı ?</h3>
-
-                    @if(Session::has('success'))
-                        <script>
-                            Swal.fire({
-                                position: 'middle',
-                                icon: 'success',
-                                title: 'BAŞARILI!!',
-                                text: '{{ session()->get('success') }}',
-                                showConfirmButton: true,
-                                confirmButtonText:"Tamam!",
-                                timer: 3000
-
-                            })
-                        </script>
-                    @endif
-                <!-- error kısmı default controllerda ki session dan geliyor ve giriş hatalı ise ekrana hatalı mesajını basıyor -->
-                    @if(Session::has('error'))
-                        <script>
-                            Swal.fire({
-                                position: 'middle',
-                                icon: 'error',
-                                title: 'HATA!',
-                                text: '{{ session()->get('error') }}',
-                                showConfirmButton: true,
-                                confirmButtonText:"Tamam!",
-                                timer: 3000
-                            })
-                        </script>
-                @endif
-                <!--bitiş hata mesajının -->
 
                     <form action="{{route('Admin.authenticate')}}" class="signin-form" method="post">
                         @csrf
@@ -86,28 +55,52 @@
                         </div>
                         <div class="text-center">
                             <a class="hollow button primary" href="{{route('auth.google')}}">
-                                <img width="25px" style="margin-bottom:6px; margin-right:9px" alt="Google login" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-                           <font size="4px">Google İle Giriş Yap</font>
+                                <img width="25px" style="margin-bottom:6px; margin-right:9px" alt="Google login"
+                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+                                <font size="4px">Google İle Giriş Yap</font>
                             </a>
                         </div>
 
                     </form>
-
-
                 </div>
             </div>
         </div>
     </div>
 </section>
+    <script src="/back/login/js/jquery.min.js"></script>
+    <script src="/back/login/js/popper.js"></script>
+    <script src="/back/login/js/bootstrap.min.js"></script>
+    <script src="/back/login/js/main.js"></script>
 
-<script src="/back/login/js/jquery.min.js"></script>
-<script src="/back/login/js/popper.js"></script>
-<script src="/back/login/js/bootstrap.min.js"></script>
-<script src="/back/login/js/main.js"></script>
-<STYLE>
-
-</STYLE>
 
 </body>
 </html>
+@if(Session::has('success'))
+    <script>
+        Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'BAŞARILI!!',
+            text: '{{ session()->get('success') }}',
+            showConfirmButton: true,
+            confirmButtonText: "Tamam!",
+            timer: 3000
+
+        })
+    </script>
+@endif
+<!-- error kısmı default controllerda ki session dan geliyor ve giriş hatalı ise ekrana hatalı mesajını basıyor -->
+@if(Session::has('error'))
+    <script>
+        Swal.fire({
+            position: 'middle',
+            icon: 'error',
+            title: 'HATA!',
+            text: '{{ session()->get('error') }}',
+            showConfirmButton: true,
+            confirmButtonText: "Tamam!",
+            timer: 3000
+        })
+    </script>
+@endif
 

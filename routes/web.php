@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Route;
 
 //Login ve .ENV Dosya kurulum routeları
 Route::get('sql/install', [DefaultController::class, 'index'])->name('install')->middleware('DataControl');
-
 Route::get('/redirect',[DefaultController::class,'redirectToProvider'])->name('auth.google');
 Route::get('/callback',[DefaultController::class,'handleProviderCallback']);
 Route::get('/', [DefaultController::class, 'login'])->name('Admin.login')->middleware('Login');
