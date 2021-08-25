@@ -21,7 +21,6 @@ class Helper
         $permissions = Permission::all()->pluck('name')->all();
 
 
-
         //hata almamak için role ve permission değişkenlerine boş değer ataması yapıyoruz.
         $role = '';
         $permission = '';
@@ -41,8 +40,7 @@ class Helper
 
                 if ($value['name'] !== 'User') {
                     $is_see_admin = 1;
-                }
-                else if($value['name']=='User') {
+                } else if ($value['name'] == 'User') {
                     $is_see_admin = 0;
                 }
                 $role = Role::create([
@@ -73,7 +71,6 @@ class Helper
         }
 
 
-
         $users = User::all()->pluck('email')->all();
         foreach ($defaultSystemVars['default_user'] as $value) {
             //in_array metodu bunun için de varsa diye işlev görüyor
@@ -94,20 +91,22 @@ class Helper
         //bu aşağıda ki kısım yetkilendirme ve role atama işlemlerini yapıyor
         //ilk eklenen veriler için
         $permissions = Permission::all()->pluck('name')->all();
-
-        $permissions=Permission::all();
+        $permissions = Permission::all();
+        $permissions2=Permission::whereNotIn('name',['artisan-permission'])->get();
         $admin_role = Role::whereName('admin')->first();
-
+        $system_admin_role = Role::whereName('System-Admin')->first();
         $admin_user = User::whereEmail('mehmet@mehmetkucukcelebi.com.tr')->first();
+        $system_admin = User::whereEmail('mehmet@mehmet.com.tr')->first();
         $editor_role = Role::whereName('Editor')->first();
         $user_role = Role::whereName('User')->first();
         $webUser = User::whereEmail('user@user.com')->first();
         $webEditor = User::whereEmail('editor@editor.com')->first();
         $webEditor->assignRole($editor_role);
-        $admin_user->assignRole($admin_role);
+        $admin_user->assignRole($system_admin_role);
+        $system_admin->assignRole($system_admin_role);
         $webUser->assignRole($user_role);
-        $admin_role->givePermissionTo($permissions);
-
+        $admin_role->givePermissionTo($permissions2);
+        $system_admin_role->givePermissionTo($permissions);
     }
 }
 

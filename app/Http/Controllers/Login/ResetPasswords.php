@@ -38,8 +38,8 @@ class ResetPasswords extends Controller
         $email = $request->email;
         $user = User::whereEmail($email)->first();
         if ($user) {
-            $user->reset_password_token = Str::random(40);
-            $user->reset_password_expired = now()->addMinutes('180');
+            $user->reset_password_token = Str::random(60);
+            $user->reset_password_expired = now()->addMinutes('1440');
             $user->save();
 
             $mail = new ResetPasswordMail($user);

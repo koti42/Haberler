@@ -13,7 +13,7 @@ return [
     */
     'middlewares' => [
         'web',
-        'Adminn',
+        'ArtSystemLogin',
     ],
 
     /*

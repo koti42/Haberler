@@ -16,26 +16,40 @@
                     @php $check=0; @endphp
                     <form method="POST" action="{{route('roles.manage-permissionsStore')}}">
                         @csrf
-                <div class="col-lg-12">
+                        <div class="col-lg-12">
 
-                        <div class="col-sm-2 float-left ml-5">
-                            @foreach($role->permissions as $per)
-                                @if($perm->name===$per->name)
-                                    @php $check=1; @endphp
+                            <div class="col-sm-2 float-left ml-5">
+                                @foreach($role->permissions as $per)
+                                    @if($perm->name===$per->name)
+                                        @php $check=1; @endphp
+                                    @endif
+                                @endforeach
+
+                                @if($systemcontrol==="System-Admin")
+                                    <input type="checkbox" @if($check===1) checked
+                                           @endif name="permissions[{{$perm->id}}]" id="id-{{$perm->id}}"
+                                           class="custom-control-input">
+                                    <label for="id-{{$perm->id}}"
+                                           class="custom-control-label">{{slugify($perm->name)}}</label>
+                                  @else
+                                    @if($perm->name!=="artisan-permission")
+                                        <input type="checkbox" @if($check===1) checked
+                                               @endif name="permissions[{{$perm->id}}]" id="id-{{$perm->id}}"
+                                               class="custom-control-input">
+                                        <label for="id-{{$perm->id}}"
+                                               class="custom-control-label">{{slugify($perm->name)}}</label>
+                                    @endif
                                 @endif
-                            @endforeach
-                            <input type="checkbox" @if($check===1) checked @endif name="permissions[{{$perm->id}}]" id="id-{{$perm->id}}" class="custom-control-input">
-                            <label for="id-{{$perm->id}}" class="custom-control-label">{{slugify($perm->name)}}</label>
+                            </div>
+                            <input type="hidden" name="id" value="{{$role->id}}">
+
+
                         </div>
-                        <input type="hidden" name="id" value="{{$role->id}}">
-
-
-                </div>
-                @endforeach
+                        @endforeach
                         <br>
                         <br>
                         <br>
-                        <button type="submit" class="btn btn-info" >Rollerin Yetkilerini Kaydet</button>
+                        <button type="submit" class="btn btn-info">Rollerin Yetkilerini Kaydet</button>
                     </form>
 
             </div>

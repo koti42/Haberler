@@ -31,7 +31,11 @@
                             <td>{{$per->name}}</td>
                             <td>
                                 @if($per->is_main===1)
+                                    @if($per->name==="artisan-permission")
+                                        <b>Özel Atanmış Sistem Yetkisi</b>
+                                    @else
                                    <b>Evet</b>
+                                    @endif
                                 @else
                                    <b>Hayır</b>
                                 @endif

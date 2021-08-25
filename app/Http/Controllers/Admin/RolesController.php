@@ -19,8 +19,8 @@ class RolesController extends Controller
      */
     public function index()
     {
+        $systemcontrol="";
         $Roles = DB::table('roles')->orderBy('id', 'DESC')->paginate(10);
-
         return view('admin.Roles.index', compact('Roles'));
 
     }
@@ -146,8 +146,13 @@ class RolesController extends Controller
     {
         $role=Role::find($id)->load('permissions');
         $permissions=Permission::all();
+        $rols = auth()->user()->roles()->get();
+        foreach ($rols as $rr)
+        {
+            $systemcontrol= $rr->name;
+        }
 
-        return view('Admin.Permission-Role-Management.index',compact('role','permissions'));
+        return view('Admin.Permission-Role-Management.index',compact('role','permissions','systemcontrol'));
     }
     public function ManagePermissionStore(Request $request)
     {
