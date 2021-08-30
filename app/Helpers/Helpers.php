@@ -3,9 +3,11 @@
 namespace app\Helpers\Helpers;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Throwable;
 use function App\Helpers\helper\getVar;
 
 class Helper
@@ -82,6 +84,7 @@ class Helper
                     'name' => $value['name'],
                     'email' => $value['email'],
                     'password' => bcrypt($value['password']),
+                    'google_id'=>null,
                 ]);
 
             }
@@ -90,23 +93,34 @@ class Helper
 
         //bu aşağıda ki kısım yetkilendirme ve role atama işlemlerini yapıyor
         //ilk eklenen veriler için
+
         $permissions = Permission::all()->pluck('name')->all();
         $permissions = Permission::all();
-        $permissions2=Permission::whereNotIn('name',['artisan-permission'])->get();
+        $permissions2 = Permission::whereNotIn('name', ['artisan-permission'])->get();
+
         $admin_role = Role::whereName('admin')->first();
         $system_admin_role = Role::whereName('System-Admin')->first();
-        $admin_user = User::whereEmail('mehmet@mehmetkucukcelebi.com.tr')->first();
-        $system_admin = User::whereEmail('mehmet@mehmet.com.tr')->first();
+
+        $admin_user = User::whereEmail('medine@medine.com.tr')->first();
+        $system_admin = User::whereEmail('mehmet@mehmetkucukcelebi.com.tr')->first();
+
         $editor_role = Role::whereName('Editor')->first();
         $user_role = Role::whereName('User')->first();
         $webUser = User::whereEmail('user@user.com')->first();
         $webEditor = User::whereEmail('editor@editor.com')->first();
+
+
         $webEditor->assignRole($editor_role);
-        $admin_user->assignRole($system_admin_role);
+
+        $admin_user->assignRole($admin_role);
         $system_admin->assignRole($system_admin_role);
+
         $webUser->assignRole($user_role);
+
         $admin_role->givePermissionTo($permissions2);
         $system_admin_role->givePermissionTo($permissions);
+
+
     }
 }
 

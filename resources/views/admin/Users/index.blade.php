@@ -32,7 +32,7 @@
                             <td>{{$user->name}}</td>
                             <td>
                                 @foreach($user->roles as $rols)
-                                   <b>{{$rols->name}}</b>
+                                    <b>{{$rols->name}}</b>
                                 @endforeach
                             </td>
                             <td>{{$user->email}}</td>
@@ -42,7 +42,7 @@
                                     @if($rols->is_show_admin)
                                         <b>Görebilir</b>
                                     @else
-                                       <b>Göremez</b>
+                                        <b>Göremez</b>
                                     @endif
                                 @endforeach
                             </td>
@@ -50,17 +50,18 @@
                                 <form method="post" action="{{route('users.destroy',$user)}}">
                                     @foreach($user->roles as $rols)
                                         @if($rols->name!=='Admin')
+                                            @if($rols->name!=='System-Admin')
+                                                @csrf
+                                                @method('delete')
 
-                                            @csrf
-                                            @method('delete')
-
-                                            <button type="submit" data-secim="deleteUserButton"
-                                                    id="delete_user" value="" name="delete_id"
-                                                    class="btn btn-sm btn-danger deleteUserButton">
-                                                Üye Sil
-                                            </button>
-                                        @else
-                                            <b>Üye Silinemez!</b>
+                                                <button type="submit" data-secim="deleteUserButton"
+                                                        id="delete_user" value="" name="delete_id"
+                                                        class="btn btn-sm btn-danger deleteUserButton">
+                                                    Üye Sil
+                                                </button>
+                                            @else
+                                                <b>Üye Silinemez!</b>
+                                            @endif
                                         @endif
                                     @endforeach
                                 </form>
