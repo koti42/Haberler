@@ -1,0 +1,109 @@
+{
+    "default_role": {
+        "admin": {
+            "name": "Admin",
+            "description": "Admin",
+            "slug": "admin",
+            "is_main": "1",
+            "is_show_admin": "1",
+            "guard_name": "web"
+        },
+        "editor": {
+            "name": "Editor",
+            "description": "System Editor",
+            "slug": "editor",
+            "is_main": "1",
+            "is_show_admin": "1",
+            "guard_name": "web"
+        },
+        "user": {
+            "name": "User",
+            "description": "User",
+            "slug": "user",
+            "is_main": "1",
+            "is_show_admin": "1",
+            "guard_name": "web"
+        },
+        "SystemAdmin": {
+            "name": "System-Admin",
+            "description": "System-Admin",
+            "slug": "System Admin",
+            "is_main": "1",
+            "is_show_admin": "1",
+            "guard_name": "web"
+        }
+    },
+    "default_permission": {
+        "create-user": {
+            "name": "create-user",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
+        },
+        "edit-user": {
+            "name": "edit-user",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
+        },
+        "update-user": {
+            "name": "update-user",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
+        },
+        "delete-user": {
+            "name": "delete-user",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
+        },
+        "show-user": {
+            "name": "show-user",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
+        },
+        "create-permissions": {
+            "name": "create-permission",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
+        },
+        "artisan-show": {
+            "name": "artisan-permission",
+            "is_main": "1",
+            "guard_name": "web",
+            "description": ""
+        }
+    },
+    "default_user": {
+        "admin": {
+            "name": "Mehmet",
+            "email": "mehmet@mehmetkucukcelebi.com.tr",
+            "password": "123456"
+        },
+        "editor": {
+            "name": "editor",
+            "email": "editor@editor.com",
+            "password": "123456"
+        },
+        "user": {
+            "name": "user",
+            "email": "user@user.com",
+            "password": "123456"
+
+        },
+        "System-Admin": {
+            "name": "Medine",
+            "email": "medine@medine.com.tr",
+            "password": "123456"
+        }
+    }
+}
+
+
+
+
+
+
