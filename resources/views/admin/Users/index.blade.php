@@ -22,6 +22,7 @@
                             <th>Email</th>
                             <th>Kayıt Tarihi</th>
                             <th>Admin Sayfası Görüntüleme Yetkisi</th>
+                            <th>Mail Doğrulaması Var Mı?</th>
                             <th>Üye Sil</th>
                             <th>Üye Düzenle</th>
                         </tr>
@@ -45,6 +46,14 @@
                                         <b>Göremez</b>
                                     @endif
                                 @endforeach
+                            </td>
+                            <td>
+                                    @if($user->email_verified_success==null)
+                                        <b>Aktivasyon Yok</b>
+                                    @else
+                                        <b>Aktivasyon Var</b>
+                                    @endif
+
                             </td>
                             <td>
                                 <form method="post" action="{{route('users.destroy',$user)}}">

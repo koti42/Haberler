@@ -85,6 +85,9 @@ class Helper
                     'email' => $value['email'],
                     'password' => bcrypt($value['password']),
                     'google_id'=>null,
+                    'email_verified_success'=>$deger= Str::random(60).'-active',
+                    'email_verified_at'=>now(),
+                    'email_verified_control'=>$deger,
                 ]);
 
             }

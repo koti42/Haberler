@@ -5,10 +5,12 @@ use App\Http\Controllers\Admin\DashbordController;
 use App\Http\Controllers\Admin\NewController;
 use App\Http\Controllers\Admin\DefaultController;
 use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Login\ResetPasswords;
 
 //Front Use Controller
 use App\Http\Controllers\Front\NewsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //Front Route start
@@ -24,11 +26,11 @@ Route::get('/', [NewsController::class, 'index'])->name('Main');
 Route::get('sql/install', [DefaultController::class, 'index'])->name('install')->middleware('DataControl');
 Route::get('/redirect', [DefaultController::class, 'redirectToProvider'])->name('auth.google');
 Route::get('/callback', [DefaultController::class, 'handleProviderCallback']);
-Route::get('/admin-login', [DefaultController::class, 'login'])->name('Admin.login')->middleware('Login');
-Route::post('/admin-login', [DefaultController::class, 'authenticate'])->name('Admin.authenticate');
+Route::get('/login', [DefaultController::class, 'login'])->name('Admin.login')->middleware('Login');
+Route::post('/login', [DefaultController::class, 'authenticate'])->name('Admin.authenticate');
 
 //Şifre Sıfırlama Routeları
-Route::prefix('admin/password/reset')->group(function () {
+Route::prefix('/password/reset')->group(function () {
     Route::middleware(['PasswordReset'])->group(function () {
         Route::get('/', [ResetPasswords::class, 'resetPassword'])->name('reset.password');
         Route::get('/{token}', [ResetPasswords::class, 'resetPasswordShow'])->name('reset.password2');
@@ -37,6 +39,17 @@ Route::prefix('admin/password/reset')->group(function () {
     });
 
 });
+//Hesap Doğrulama
+if(Auth::check())
+{
+    return redirect(route('admin.dashboard'));
+}
+else
+{
+    Route::get('/login/account-verified-success/{token}',[UsersController::class,'AccountVerified'])->name('Verified_Account');
+}
+
+//Hesap Doğrulama Bitiş
 
 //Admin kontrol paneli route tanımları
 Route::prefix('admin')->group(function () {
@@ -47,21 +60,31 @@ Route::prefix('admin')->group(function () {
         Route::get('/category/create', [CategoryController::class, 'create'])->name('admin.category.create');
         Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store');
         Route::get('/editcategory/{id2}', [CategoryController::class, 'getCategory']);
-        Route::get('/exit', [DashbordController::class, 'exit'])->name('admin.exit');
         Route::get('/category/getAll', [CategoryController::class, 'getAll'])->name('admin.category.getAll');
-        Route::get('/manage-role/{role}', [RolesController::class, 'ManagePermission'])->name('roles.manage-permissions');
-        Route::post('/manage-role-permissions', [RolesController::class, 'ManagePermissionStore'])->name('roles.manage-permissionsStore');
-        Route::post('/google-disconnect/{delete}', [DefaultController::class, 'googleLogout'])->name('GoogleLogout');
         Route::post('/category/update', [CategoryController::class, 'updateCategory'])->name('category.update');
         Route::post('/category/delete', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+
+
+
+        //giriş çıkış route
+        Route::get('/exit', [DashbordController::class, 'exit'])->name('admin.exit');
+        //giriş çıkış route bitiş
+
+
+        //google giriş-çıkış route
+        Route::post('/google-disconnect/{delete}', [DefaultController::class, 'googleLogout'])->name('GoogleLogout');
+        //google giriş-çıkış route bitiş
+
+
+        //Yetki Ve Kullanıcı Routeları
         Route::resource('users', '\App\Http\Controllers\Admin\UsersController');
         Route::resource('roles', '\App\Http\Controllers\Admin\RolesController');
         Route::resource('permission', '\App\Http\Controllers\Admin\PermissionController');
+        Route::get('/manage-role/{role}', [RolesController::class, 'ManagePermission'])->name('roles.manage-permissions');
+        Route::post('/manage-role-permissions', [RolesController::class, 'ManagePermissionStore'])->name('roles.manage-permissionsStore');
+        //Yetki Ve Kullanıcı Routeları Bitiş
     });
 });
-
-
-//FRONTEND  ROUTE
-
-Route::get('/homepage', [FrontNewController::class, 'index']);
-
+//Log Kayıtları İnceleme
+Route::get('admin/logs', 'Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('Adminn');
+//Log Kayıtları İnceleme Bitiş

@@ -45,7 +45,8 @@ class ResetPasswords extends Controller
             $mail = new ResetPasswordMail($user);
             Mail::to($user->email)->send($mail);
             return redirect(route('reset.password'))->with('success', 'Mail Başarı ile Gönderilmiştir!');
-        } else {
+        }
+        else {
             return redirect(route('reset.password'))->with('success', 'Mail Başarı ile Gönderilmiştir!');
         }
     }

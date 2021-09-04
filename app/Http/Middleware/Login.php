@@ -25,7 +25,7 @@ class Login
         if (CheckDbConnection()) {
 
             //giriş yapmış kullanıcıların login ekranına tekrar dönmesini engellemek için.
-            if (Auth::check() && $request->is('/')) {
+            if (Auth::check() && $request->is('login')) {
                 $rols = auth()->user()->roles()->get();
                 foreach ($rols as $role) {
                     if (Auth::check() && $role->is_show_admin == 1)

@@ -13,7 +13,7 @@ return [
     */
     'middlewares' => [
         'web',
-        'ArtSystemLogin',
+        'Adminn',
     ],
 
     /*
@@ -47,7 +47,7 @@ return [
     | Flag that preventing showing commands if environment is on production
     |
     */
-    'local' => true,
+    'local' => false,
 
     /*
     |--------------------------------------------------------------------------

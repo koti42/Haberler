@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UsersAdded;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Exception;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -54,13 +55,12 @@ class UsersController extends Controller
         }
 
         $success = false;
-        try {
+
             $user = User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => bcrypt($request['password']),
                 'google_id'=>null,
-
             ]);
             if ($user) {
                 $role = Role::find($request->role_id);
@@ -70,13 +70,11 @@ class UsersController extends Controller
                 else
                     $success = false;
 
-            } else
+                event(new UsersAdded($user));
+            }
+            else
                 $success = false;
-        } catch (Throwable $exception) {
-            $success = false;
-            return redirect()->back()->with('error', 'Kayıt İşlemi Başarısız Lütfen Sistem Yöneticisine Başvurunuz!');
 
-        }
         if ($success) {
             DB::commit();
             return redirect()->route('users.index')->with('success', 'Kayıt İşlemi Başarılı');
@@ -95,7 +93,21 @@ class UsersController extends Controller
     {
         //
     }
-
+    public function AccountVerified(Request $request)
+    {
+        $user = $request->token;
+        $veri = User::where('email_verified_control', $user)->first();
+        $control_verified = User::where('email_verified_success', $user)->first();
+        if($control_verified)
+        {
+            return redirect(route('Admin.login'));
+        }
+        if ($veri) {
+            $veri->email_verified_success =$request->token;
+            $veri->save();
+            return redirect(route('Admin.login'))->with('success','Hesap Aktivasyon İşlevi Başarıyla Tamamlandı');
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *

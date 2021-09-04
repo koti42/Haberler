@@ -77,10 +77,10 @@ class DefaultController extends Controller
                     return redirect()->to('admin')->with('error', 'Bu Google Hesabı Daha Önce Başka Bir Hesap İle Eşleştirildi!');
 
             } else {
-                return redirect('/admin-login')->with('error', 'Daha Önce Bu Google Hesabı ile Bağlantı Yapılmamış!');
+                return redirect('/login')->with('error', 'Daha Önce Bu Google Hesabı ile Bağlantı Yapılmamış!');
             }
         } catch (Throwable $e) {
-            return redirect('/admin-login')->with('error', 'Bilinmeyen Bir Hata Gerçekleşti!');
+            return redirect('/login')->with('error', 'Bilinmeyen Bir Hata Gerçekleşti!');
         }
     }
 
