@@ -48,7 +48,6 @@ else
 {
     Route::get('/login/account-verified-success/{token}',[UsersController::class,'AccountVerified'])->name('Verified_Account');
 }
-
 //Hesap Doğrulama Bitiş
 
 //Admin kontrol paneli route tanımları

@@ -48,7 +48,7 @@ class UsersController extends Controller
      */
     public function store(UserRequest $request)
     {
-        if(!$request->user()->roles->flatMap->permissions->contains('name', 'create-user')) {
+        if (!$request->user()->roles->flatMap->permissions->contains('name', 'create-user')) {
             return redirect()
                 ->route('users.create')
                 ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
@@ -56,24 +56,23 @@ class UsersController extends Controller
 
         $success = false;
 
-            $user = User::create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'password' => bcrypt($request['password']),
-                'google_id'=>null,
-            ]);
-            if ($user) {
-                $role = Role::find($request->role_id);
-                $Saverole = $user->assignRole($role);
-                if ($Saverole)
-                    $success = true;
-                else
-                    $success = false;
-
-                event(new UsersAdded($user));
-            }
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+            'google_id' => null,
+        ]);
+        if ($user) {
+            $role = Role::find($request->role_id);
+            $Saverole = $user->assignRole($role);
+            if ($Saverole)
+                $success = true;
             else
                 $success = false;
+
+            event(new UsersAdded($user));
+        } else
+            $success = false;
 
         if ($success) {
             DB::commit();
@@ -93,21 +92,23 @@ class UsersController extends Controller
     {
         //
     }
+
     public function AccountVerified(Request $request)
     {
         $user = $request->token;
         $veri = User::where('email_verified_control', $user)->first();
         $control_verified = User::where('email_verified_success', $user)->first();
-        if($control_verified)
-        {
+        if ($control_verified) {
             return redirect(route('Admin.login'));
         }
         if ($veri) {
-            $veri->email_verified_success =$request->token;
+            $veri->email_verified_success = $request->token;
+            $veri->email_verified_at = now();
             $veri->save();
-            return redirect(route('Admin.login'))->with('success','Hesap Aktivasyon İşlevi Başarıyla Tamamlandı');
+            return redirect(route('Admin.login'))->with('success', 'Hesap Aktivasyon İşlemi Başarıyla Tamamlandı');
         }
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -136,7 +137,7 @@ class UsersController extends Controller
     {
         try {
             // Kullanıcı birden fazla role sahip ise tüm yetkileri derlemeniz lazım
-            if(!$request->user()->roles->flatMap->permissions->contains('name', 'edit-user')) {
+            if (!$request->user()->roles->flatMap->permissions->contains('name', 'edit-user')) {
                 return redirect()
                     ->route('users.index')
                     ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');
@@ -149,17 +150,16 @@ class UsersController extends Controller
             return redirect()
                 ->route('users.index')
                 ->with('success', 'Kayıt günceleme işlemi başarıyla tamamlandı!');
-        }
-        catch (Throwable $exception){
+        } catch (Throwable $exception) {
             return redirect()
                 ->route('users.index')
                 ->with('error', 'Bilinmeyen Bir Hata  Oluştu Lütfen Sistem Yöneticisine Bildiriniz!');
         }
 
-    //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
+        //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
 
 
-}
+    }
 
 
     /**
@@ -170,7 +170,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user, Request $request)
     {
-        if(!$request->user()->roles->flatMap->permissions->contains('name', 'delete-user')) {
+        if (!$request->user()->roles->flatMap->permissions->contains('name', 'delete-user')) {
             return redirect()
                 ->route('users.index')
                 ->with('error', 'Bunun için yetkiniz yok!, Lütfen sistem yöneticisine başvurunuz!');

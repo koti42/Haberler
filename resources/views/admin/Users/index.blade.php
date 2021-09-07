@@ -58,8 +58,8 @@
                             <td>
                                 <form method="post" action="{{route('users.destroy',$user)}}">
                                     @foreach($user->roles as $rols)
-                                        @if($rols->name!=='Admin')
-                                            @if($rols->name!=='System-Admin')
+
+                                            @if($rols->name!=='System-Admin'&&$rols->name!=='Admin')
                                                 @csrf
                                                 @method('delete')
 
@@ -71,7 +71,6 @@
                                             @else
                                                 <b>Üye Silinemez!</b>
                                             @endif
-                                        @endif
                                     @endforeach
                                 </form>
 

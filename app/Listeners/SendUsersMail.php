@@ -34,12 +34,8 @@ class SendUsersMail
         if ($gonder) {
             $gonder->email_verified_control = Str::random(60) . '-active';
             $gonder->save();
-
             $mail = new VerifiedUsersMail($gonder);
             Mail::to($gonder->email)->send($mail);
-            return redirect(route('reset.password'))->with('success', 'Mail Başarı ile Gönderilmiştir!');
-        } else {
-            return redirect(route('reset.password'))->with('success', 'Mail Başarı ile Gönderilmiştir!');
         }
 
     }
