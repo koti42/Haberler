@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use phpDocumentor\Reflection\Types\AbstractList;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         try {
             $response  = Http::get("https://api.openweathermap.org/data/2.5/forecast/daily?",[
                 'id'=>'323786',
@@ -46,9 +48,12 @@ class AppServiceProvider extends ServiceProvider
             View::share('temp',$temp);
 
         }
+
+
         catch (Throwable $exception)
         {
             return $exception;
         }
+
     }
 }

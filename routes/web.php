@@ -10,6 +10,9 @@ use App\Http\Controllers\Login\ResetPasswords;
 
 //Front Use Controller
 use App\Http\Controllers\Front\NewsController;
+//Front Use Controller Finish
+
+//Auth Support
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -76,11 +79,14 @@ Route::prefix('admin')->group(function () {
 
 
         //Yetki Ve Kullanıcı Routeları
-        Route::resource('users', '\App\Http\Controllers\Admin\UsersController');
-        Route::resource('roles', '\App\Http\Controllers\Admin\RolesController');
-        Route::resource('permission', '\App\Http\Controllers\Admin\PermissionController');
-        Route::get('/manage-role/{role}', [RolesController::class, 'ManagePermission'])->name('roles.manage-permissions');
-        Route::post('/manage-role-permissions', [RolesController::class, 'ManagePermissionStore'])->name('roles.manage-permissionsStore');
+
+            Route::resource('users', '\App\Http\Controllers\Admin\UsersController');
+            Route::resource('roles', '\App\Http\Controllers\Admin\RolesController');
+            Route::resource('permission', '\App\Http\Controllers\Admin\PermissionController');
+            Route::get('/manage-role/{role}', [RolesController::class, 'ManagePermission'])->name('roles.manage-permissions');
+            Route::post('/manage-role-permissions', [RolesController::class, 'ManagePermissionStore'])->name('roles.manage-permissionsStore');
+
+
         //Yetki Ve Kullanıcı Routeları Bitiş
     });
 });

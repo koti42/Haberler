@@ -21,9 +21,7 @@ class Login
     public function handle(Request $request, Closure $next)
     {
         //burada giriş yapıldıysa ve veri tabanı bağlantısında sıkıntı yok ise sql/install sayfasına giriş izni vermiyoruz
-        //ama quest için bir düzenleme yapılmadı henüz giriş yapılmamış iken quest olanlar sql/install'a erişebiliyor.
         if (CheckDbConnection()) {
-
             //giriş yapmış kullanıcıların login ekranına tekrar dönmesini engellemek için.
             if (Auth::check() && $request->is('login')) {
                 $rols = auth()->user()->roles()->get();

@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{route('admin.dashboard')}}" class="brand-link">
       <img src="{{asset('back/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin Panel</span>
     </a>
@@ -58,7 +58,8 @@
               </p>
             </a>
           </li>
-
+            <!-- Kullanıcı Ekleme Görüntüleme Sayfaları -->
+@if(\Illuminate\Support\Facades\Auth::user()->hasRole('System-Admin|Admin'))
               <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-newspaper"></i>
@@ -107,7 +108,8 @@
                 </li>
             </ul>
           </li>
-
+@endif
+        <!-- Kullanıcı Ekleme Görüntüleme Sayfaları Sonu -->
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

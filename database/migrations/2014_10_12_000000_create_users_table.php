@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('reset_password_expired')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('google_id')->nullable()->default('null');
+            $table->string('google_id')->nullable()->default(null);
             $table->string('email_verified_control')->nullable();
             $table->string('email_verified_success')->nullable()->default(null);
             $table->rememberToken();

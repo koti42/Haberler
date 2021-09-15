@@ -6,10 +6,9 @@ use App\Events\UsersAdded;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -24,9 +23,10 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::with('roles')
-            ->paginate(12);
-        //  $user=User::all()->load('roles');
-        return view('admin.Users.index', compact('users'));
+            ->paginate(100);
+            return view('admin.Users.index', compact('users'));
+
+
     }
 
     /**
@@ -96,15 +96,15 @@ class UsersController extends Controller
     public function AccountVerified(Request $request)
     {
         $user = $request->token;
-        $veri = User::where('email_verified_control', $user)->first();
+        $data = User::where('email_verified_control', $user)->first();
         $control_verified = User::where('email_verified_success', $user)->first();
         if ($control_verified) {
             return redirect(route('Admin.login'));
         }
-        if ($veri) {
-            $veri->email_verified_success = $request->token;
-            $veri->email_verified_at = now();
-            $veri->save();
+        if ($data) {
+            $data->email_verified_success = $request->token;
+            $data->email_verified_at = now();
+            $data->save();
             return redirect(route('Admin.login'))->with('success', 'Hesap Aktivasyon İşlemi Başarıyla Tamamlandı');
         }
     }
@@ -156,7 +156,6 @@ class UsersController extends Controller
                 ->with('error', 'Bilinmeyen Bir Hata  Oluştu Lütfen Sistem Yöneticisine Bildiriniz!');
         }
 
-        //Bütün hataları yakalamak için Throwable kullanılıyor laravel de
 
 
     }

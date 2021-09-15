@@ -27,12 +27,60 @@
   <!-- Daterange picker -->
   <link rel="stylesheet" href="{{asset('back/plugins/daterangepicker/daterangepicker.css')}}">
   <link rel="stylesheet" href="{{asset('back/dist/css/alt/Register.css')}}">
+    <!-- jQuery -->
+    <script src="{{asset('back/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('back/dist/js/ajaxx.js')}}"></script>
+    <script src="{{asset('back/dist/js/ajaxdelete.js')}}"></script>
+
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{asset('back/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="{{asset('back/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- ChartJS -->
+    <script src="{{asset('back/plugins/chart.js/Chart.min.js')}}"></script>
+    <!-- Sparkline -->
+    <script src="{{asset('back/plugins/sparklines/sparkline.js')}}"></script>
+    <!-- JQVMap -->
+    <script src="{{asset('back/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
+    <script src="{{asset('back/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{{asset('back/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
+    <!-- daterangepicker -->
+    <script src="{{asset('back/plugins/moment/moment.min.js')}}"></script>
+    <script src="{{asset('back/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="{{asset('back/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+    <script>{{asset('back/dist/js/generally.js')}}</script>
+    <!-- Loading Scripti -->
+    <script src="{{asset('back/dist/js/loadingoverlay.min.js')}}"></script>
+    <script src="{{asset('back/dist/js/loading.js')}}"></script>
+    <!-- Loading Scripti Bitiş -->
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{asset('back/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <!-- Summernote -->
+    <script src="{{asset('back/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{{asset('back/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{asset('back/dist/js/adminlte.js')}}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{asset('back/dist/js/demo.js')}}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{{asset('back/dist/js/pages/dashboard.js')}}"></script>
 
 
 
     @yield('css')
 </head>
+
+
 <body class="hold-transition sidebar-mini layout-fixed">
+
 <div class="wrapper">
   <!-- Navbar -->
    @include('admin.component.navbar')
@@ -58,50 +106,13 @@
   >
   <!-- /.control-sidebar -->
 </div>
+
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="{{asset('back/plugins/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('back/dist/js/ajaxx.js')}}"></script>
-<script src="{{asset('back/dist/js/ajaxdelete.js')}}"></script>
 
-<!-- jQuery UI 1.11.4 -->
-<script src="{{asset('back/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('back/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- ChartJS -->
-<script src="{{asset('back/plugins/chart.js/Chart.min.js')}}"></script>
-<!-- Sparkline -->
-<script src="{{asset('back/plugins/sparklines/sparkline.js')}}"></script>
-<!-- JQVMap -->
-<script src="{{asset('back/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('back/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{{asset('back/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
-<!-- daterangepicker -->
-<script src="{{asset('back/plugins/moment/moment.min.js')}}"></script>
-<script src="{{asset('back/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script src="{{asset('back/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
-<script>{{asset('back/dist/js/generally.js')}}</script>
 
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{asset('back/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-<!-- Summernote -->
-<script src="{{asset('back/plugins/summernote/summernote-bs4.min.js')}}"></script>
-<!-- overlayScrollbars -->
-<script src="{{asset('back/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('back/dist/js/adminlte.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset('back/dist/js/demo.js')}}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('back/dist/js/pages/dashboard.js')}}"></script>
+
+
 @yield('js')
 </body>
 </html>

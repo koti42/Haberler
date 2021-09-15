@@ -19,6 +19,8 @@ class Adminn
      */
     public function handle(Request $request, Closure $next)
     {
+
+
         if (CheckDbConnection()) {
             if (auth()->check()) {
                 $roles = auth()->user()->roles()->get();
@@ -30,6 +32,7 @@ class Adminn
                     }
                 }
             } else if (auth()->guest()) {
+                //çıkış yapan kullanıcılar ile hiç giriş yapmamış kullanıcıların admin panele erişmesi durumunda ayırt etmek için ek bir kod yazılacak
                 return redirect(route('Admin.login'))->with('error', 'Böyle Bir Kullanıcı Bulunamadı!');
             }
 
