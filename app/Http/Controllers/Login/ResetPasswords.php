@@ -41,10 +41,14 @@ class ResetPasswords extends Controller
             $user->reset_password_token = Str::random(60);
             $user->reset_password_expired = now()->addMinutes('1600');
             $user->save();
-
-            $mail = new ResetPasswordMail($user);
-            Mail::to($user->email)->send($mail);
+            if($user)
+            {
+                $mail = new ResetPasswordMail($user);
+                Mail::to($user->email)->send($mail);
+                return redirect(route('reset.password'))->with('success', 'Mail Başarı ile Gönderilmiştir!');
+            }
             return redirect(route('reset.password'))->with('success', 'Mail Başarı ile Gönderilmiştir!');
+
         }
         else {
             return redirect(route('reset.password'))->with('success', 'Mail Başarı ile Gönderilmiştir!');

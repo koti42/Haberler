@@ -117,7 +117,14 @@ class RolesController extends Controller
             $role->name = slugify($request['name']);
             $role->is_show_admin = $request->is_show_admin;
             $role->save();
-            return redirect()->route('roles.index')->with('success', 'Yetki Günceleme İşlemi Başarıyla Tamamlandı!');
+            if($role)
+            {
+                return redirect()->route('roles.index')->with('success', 'Yetki Günceleme İşlemi Başarıyla Tamamlandı!');
+            }
+            else{
+                return redirect()->route('roles.index')->with('error', 'Yetki Günceleme İşlemi Başarısız!');
+            }
+
         } catch (ModelNotFoundException $exception) {
             return redirect()->route('roles.index')->with('error', 'Güncelleme İşlemi Şuanda Çalışmıyor, Lütfen Sistem Yöneticisine Başvurunuz!');
         }

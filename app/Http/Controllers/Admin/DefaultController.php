@@ -47,7 +47,14 @@ class DefaultController extends Controller
         $googleMd = User::where('id', $id)->first();
         $googleMd->google_id = null;
         $googleMd->save();
-        return redirect()->to('admin')->with('success', 'Google Bağlantısı  Başarıyla Kesildi!');
+        if($googleMd)
+        {
+            return redirect()->to('admin')->with('success', 'Google Bağlantısı  Başarıyla Kesildi!');
+        }
+        else{
+            return redirect()->to('admin')->with('error', 'Google Bağlantısı Kesilemedi!');
+        }
+
     }
 
     public function handleProviderCallback()
@@ -72,7 +79,15 @@ class DefaultController extends Controller
                     $googleLogin = User::findOrFail($rols->id);
                     $googleLogin->google_id = $user->id;
                     $googleLogin->save();
-                    return redirect()->to('admin')->with('success', 'Google İle Hesap Bağlama Başarıyla Tamamlandı!');
+                    if($googleLogin)
+                    {
+                        return redirect()->to('admin')->with('success', 'Google İle Hesap Bağlama Başarıyla Tamamlandı!');
+                    }
+                    else
+                    {
+                        return redirect()->to('admin')->with('error', 'Google  Hesap Bağlama İşlemi Başarısız!');
+                    }
+
                 } else
                     return redirect()->to('admin')->with('error', 'Bu Google Hesabı Daha Önce Başka Bir Hesap İle Eşleştirildi!');
 

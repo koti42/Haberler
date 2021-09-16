@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\UsersAdded;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRequestUpdate;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -25,7 +26,6 @@ class UsersController extends Controller
         $users = User::with('roles')
             ->paginate(100);
             return view('admin.Users.index', compact('users'));
-
 
     }
 
@@ -133,7 +133,7 @@ class UsersController extends Controller
      * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequestUpdate $request, User $user)
     {
         try {
             // Kullanıcı birden fazla role sahip ise tüm yetkileri derlemeniz lazım
@@ -147,9 +147,21 @@ class UsersController extends Controller
             $user->email = $request->input('email');
             $user->save();
 
-            return redirect()
+            if($user)
+            {
+                return redirect()
+                    ->route('users.index')
+                    ->with('success', 'Kayıt günceleme işlemi başarıyla tamamlandı!');
+            }
+            else
+            {
+                return redirect()
                 ->route('users.index')
-                ->with('success', 'Kayıt günceleme işlemi başarıyla tamamlandı!');
+                ->with('error', 'Kayıt Güncelleme İşlemi Tamamlanamadı!');
+
+            }
+
+
         } catch (Throwable $exception) {
             return redirect()
                 ->route('users.index')
