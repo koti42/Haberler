@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -24,44 +25,41 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5000'
+        ]);
 
-        $finduser = Auth::user();
-        $data = User::where('id', $finduser->id)->first();
-        $td = Carbon::now('Europe/Istanbul')->format('Y-m-d H-i');
-        $Active = 0;
-        if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpg,jpeg,png|max:5000'
-            ]);
-            $file_name = uniqid() . '.' . $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('back/images/Profiles'), $file_name);
-        } else {
-            $file_name = null;
-        }
+        $user = $request->user();
 
-        if ($request->TwoAuth == "on")
-            $Active = 1;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->position = $request->input('Position');
+        $user->Experience = $request->input('experience');
+        $user->Skils = $request->input('skils'); // skils veri tabanındaki adını 'skills' diye değiştirdim hata alırsan migrateden sonra
+        $user->two_factor_authentication = $request->input('TwoAuth') == 'on';
 
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->position = $request->Position;
-        $data->ProfilePicture = $file_name;
-        $data->Experience = $request->experience;
-        $data->Skils = $request->skils;
-        $data->two_factor_authentication = $Active;
-        $data->save();
 
-        if ($data) {
-            $path = 'back/images/Profiles/' . $request->old_file;
-            if (file_exists($path)) {
-                @unlink(public_path($path));
-                //eski resmi silmek için unlink kullanıyoruz
+        if($image = $request->file('image')) {
+            try {
+                $oldFileName = $user->ProfilePicture;
+
+                $fileName = uniqid().'.'.$image->getClientOriginalExtension();
+
+                $image->storeAs('images/Profiles', $fileName, 'back');
+
+                $user->ProfilePicture = $fileName;
+
+                if($oldFileName != 'user2-160x160.jpg') {
+                    Storage::disk('back')->delete("images/Profiles/{$oldFileName}");
+                }
+
+            } catch (Throwable $exception) {
+                return redirect()->route('profiles')->withErrors($exception->getMessage());
             }
-            return redirect(route('profiles'))->with('success', 'Düzenleme Başarıyla Tamamlandı');
-        } else {
-            return redirect(route('profiles'))->with('error', 'Düzenleme Tamamlanamadı');
-
         }
 
+        $user->save();
+
+        return redirect()->route('profiles')->with('success', 'Düzenleme Başarıyla Tamamlandı');
     }
 }

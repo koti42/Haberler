@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('email_verified_success')->nullable()->default(null);
             $table->string('position')->default('Lütfen Profili Düzenleyiniz');
             $table->string('ProfilePicture')->nullable()->default('user2-160x160.jpg');
-            $table->string('Skils')->default('Lütfen Profili Düzenleyiniz');
+            $table->string('Skills')->default('Lütfen Profili Düzenleyiniz');
             $table->string('Experience')->default('Lütfen Profili Düzenleyiniz');
             $table->boolean('two_factor_authentication')->default(0);
             $table->rememberToken();

@@ -208,9 +208,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputName2" class="col-sm-2 col-form-label">Profil Fotoğraf Yükle</label>
+                                            <label for="inputName2"  class="col-sm-2 col-form-label">Profil Fotoğraf Yükle</label>
                                             <div class="col-sm-10">
-                                                <input type="file" name="image" class="form-control">
+                                                <input type="file"  name="image" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -236,7 +236,8 @@
                                         <div class="form-group row">
                                             <label for="inputAuth" class="col-sm-2 col-form-label">İki Adımlı Doğrulama</label>
                                             <div class="col-sm-10">
-                                                        <input type="checkbox" class="toggle-class"  id="CheckTwoAuth" name="TwoAuth"  checked data-toggle="toggle" data-on="Açık" data-off="Kapalı"data-onstyle="success" data-offstyle="danger" data-width="90">
+                                                        <input type="checkbox" value="" class="toggle-class"  id="CheckTwoAuth" name="TwoAuth"
+                                                               checked data-toggle="toggle" data-on="Açık" data-off="Kapalı"data-onstyle="success" data-offstyle="danger" data-width="90">
                                             </div>
                                         </div>
 
