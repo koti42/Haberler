@@ -4,12 +4,14 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashbordController;
 use App\Http\Controllers\Admin\NewController;
 use App\Http\Controllers\Admin\DefaultController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Login\ResetPasswords;
 
 //Front Use Controller
 use App\Http\Controllers\Front\NewsController;
+
 //Front Use Controller Finish
 
 //Auth Support
@@ -18,8 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 //Front Route start
 Route::get('/', [NewsController::class, 'index'])->name('Main');
-
-
 
 
 //Front Route finish
@@ -43,13 +43,10 @@ Route::prefix('/password/reset')->group(function () {
 
 });
 //Hesap Doğrulama
-if(Auth::check())
-{
+if (Auth::check()) {
     return redirect(route('admin.dashboard'));
-}
-else
-{
-    Route::get('/login/account-verified-success/{token}',[UsersController::class,'AccountVerified'])->name('Verified_Account');
+} else {
+    Route::get('/login/account-verified-success/{token}', [UsersController::class, 'AccountVerified'])->name('Verified_Account');
 }
 //Hesap Doğrulama Bitiş
 
@@ -65,7 +62,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/category/getAll', [CategoryController::class, 'getAll'])->name('admin.category.getAll');
         Route::post('/category/update', [CategoryController::class, 'updateCategory'])->name('category.update');
         Route::post('/category/delete', [CategoryController::class, 'deleteCategory'])->name('category.delete');
-
+        Route::get('profile', [ProfileController::class, 'index'])->name('profiles');
+        Route::post('/profile/profileSave', [ProfileController::class, 'update'])->name('profilesCreate');
 
 
         //giriş çıkış route
@@ -80,11 +78,11 @@ Route::prefix('admin')->group(function () {
 
         //Yetki Ve Kullanıcı Routeları
 
-            Route::resource('users', '\App\Http\Controllers\Admin\UsersController');
-            Route::resource('roles', '\App\Http\Controllers\Admin\RolesController');
-            Route::resource('permission', '\App\Http\Controllers\Admin\PermissionController');
-            Route::get('/manage-role/{role}', [RolesController::class, 'ManagePermission'])->name('roles.manage-permissions');
-            Route::post('/manage-role-permissions', [RolesController::class, 'ManagePermissionStore'])->name('roles.manage-permissionsStore');
+        Route::resource('users', '\App\Http\Controllers\Admin\UsersController');
+        Route::resource('roles', '\App\Http\Controllers\Admin\RolesController');
+        Route::resource('permission', '\App\Http\Controllers\Admin\PermissionController');
+        Route::get('/manage-role/{role}', [RolesController::class, 'ManagePermission'])->name('roles.manage-permissions');
+        Route::post('/manage-role-permissions', [RolesController::class, 'ManagePermissionStore'])->name('roles.manage-permissionsStore');
 
 
         //Yetki Ve Kullanıcı Routeları Bitiş

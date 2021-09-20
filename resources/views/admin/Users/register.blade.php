@@ -49,7 +49,7 @@
     @endforeach
 @endif
 
-<form method="POST" action="{{route('users.store')}}">
+<form method="POST" action="{{route('users.store')}}" enctype="multipart/form-data">
     @csrf
     <div class="container">
         <h1>Kayıt ekleme</h1>
@@ -61,9 +61,15 @@
         <label for="email"><b>Email Adresi</b></label>
         <input type="text" placeholder="Mail Giriniz" name="email" required minlength="8" maxlength="90">
 
+
         <label for="psw"><b>Şifre</b></label>
         <input type="password" placeholder="Şifre Giriniz" name="password" required maxlength="60" minlength="6">
 
+        <label for="image"><b>Fotoğraf Yükleyiniz </b></label>
+        <br>
+        <input type="file" placeholder="Dosya Yükleyiniz" name="Image" required>
+        <br>
+        <br>
         <select name="role_id" style="background: #f1f1f1" class="form-control">
 
             @foreach($roles as $role)

@@ -55,12 +55,23 @@ class UsersController extends Controller
         }
 
         $success = false;
-
+        if ($request->hasFile('Image'))
+        {
+            $request->validate([
+                'Image' => 'required|image|mimes:jpg,jpeg,png|max:5000'
+            ]);
+            $file_name=uniqid().'.'.$request->Image->getClientOriginalExtension();
+            $request->Image->move(public_path('back/images/Profiles'),$file_name);
+        } else
+        {
+            $file_name=null;
+        }
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
             'google_id' => null,
+            'ProfilePicture'=>$file_name,
         ]);
         if ($user) {
             $role = Role::find($request->role_id);

@@ -27,6 +27,9 @@
   <!-- Daterange picker -->
   <link rel="stylesheet" href="{{asset('back/plugins/daterangepicker/daterangepicker.css')}}">
   <link rel="stylesheet" href="{{asset('back/dist/css/alt/Register.css')}}">
+    <!-- Bootstrap Toogle -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <!-- Bootstrap Toogle -->
     <!-- jQuery -->
     <script src="{{asset('back/plugins/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('back/dist/js/ajaxx.js')}}"></script>
@@ -40,6 +43,9 @@
     </script>
     <!-- Bootstrap 4 -->
     <script src="{{asset('back/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Bootstrap Toogle -->
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <!-- Bootstrap Toogle -->
     <!-- ChartJS -->
     <script src="{{asset('back/plugins/chart.js/Chart.min.js')}}"></script>
     <!-- Sparkline -->
