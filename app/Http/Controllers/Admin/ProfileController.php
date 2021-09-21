@@ -25,6 +25,7 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
+
         $request->validate([
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5000'
         ]);
@@ -36,7 +37,7 @@ class ProfileController extends Controller
         $user->position = $request->input('Position');
         $user->Experience = $request->input('experience');
         $user->Skils = $request->input('skils'); // skils veri tabanındaki adını 'skills' diye değiştirdim hata alırsan migrateden sonra
-        $user->two_factor_authentication = $request->input('TwoAuth') == 'on';
+        $user->two_factor_authentication = $request->input('two_factory');
 
 
         if($image = $request->file('image')) {

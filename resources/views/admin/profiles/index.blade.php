@@ -236,19 +236,19 @@
                                         <div class="form-group row">
                                             <label for="inputAuth" class="col-sm-2 col-form-label">İki Adımlı Doğrulama</label>
                                             <div class="col-sm-10">
-                                                        <input type="checkbox" value="" class="toggle-class"  id="CheckTwoAuth" name="TwoAuth"
-                                                               checked data-toggle="toggle" data-on="Açık" data-off="Kapalı"data-onstyle="success" data-offstyle="danger" data-width="90">
+                                                <select name="two_factory" style="background: #f1f1f1" class="form-control">
+                                                    @if($data->two_factor_authentication)
+                                                    <option style="background-color: #f1f1f1" selected="selected" value="1">Açık</option>
+                                                    <option style="background-color: #f1f1f1" value="0">Kapalı</option>
+                                                    @else
+                                                        <option style="background-color: #f1f1f1" value="1">Açık</option>
+                                                        <option style="background-color: #f1f1f1"selected="selected"  value="0">Kapalı</option>
+                                                    @endif
+                                                </select>
                                             </div>
                                         </div>
 
-                                        <script>
-                                            $(function() {
-                                            $('.toggle-class').change(function() {
-                                                var status = $(this).prop('checked') == true ? 1 : 0;
-                                                document.getElementById("CheckTwoAuth").value=status;
-                                            })
-                                            })
-                                        </script>
+
 
                                         <div class="form-group row">
 
