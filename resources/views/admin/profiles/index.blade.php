@@ -46,7 +46,7 @@
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Son Girişler</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Daha Sonra Eklenecek</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Profil Ayarları</a></li>
                             </ul>
                         </div><!-- /.card-header -->
