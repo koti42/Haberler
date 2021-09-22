@@ -9,7 +9,9 @@ use App\Http\Requests\UserRequestUpdate;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Nette\Utils\Random;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -25,7 +27,7 @@ class UsersController extends Controller
     {
         $users = User::with('roles')
             ->paginate(100);
-            return view('admin.Users.index', compact('users'));
+        return view('admin.Users.index', compact('users'));
 
     }
 
@@ -55,23 +57,21 @@ class UsersController extends Controller
         }
 
         $success = false;
-        if ($request->hasFile('Image'))
-        {
+        if ($request->hasFile('Image')) {
             $request->validate([
                 'Image' => 'required|image|mimes:jpg,jpeg,png|max:5000'
             ]);
-            $file_name=uniqid().'.'.$request->Image->getClientOriginalExtension();
-            $request->Image->move(public_path('back/images/Profiles'),$file_name);
-        } else
-        {
-            $file_name=null;
+            $file_name = uniqid() . '.' . $request->Image->getClientOriginalExtension();
+            $request->Image->move(public_path('back/images/Profiles'), $file_name);
+        } else {
+            $file_name = null;
         }
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
             'google_id' => null,
-            'ProfilePicture'=>$file_name,
+            'ProfilePicture' => $file_name,
         ]);
         if ($user) {
             $role = Role::find($request->role_id);
@@ -102,6 +102,26 @@ class UsersController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function twoFactory(Request $request)
+    {
+
+        $user = Auth::user()->id;
+        $data = User::where('id', $user)->first();
+        $otp = implode('', $request->input('pincode'));
+        if($data)
+        {
+            $data->two_factory_verified_control =$otp;
+            $data->save();
+        }
+        return redirect(route('admin.dashboard'));
+        //TO DO LIST
+        //random 6 haneli bir sayı oluşturulacak
+        //random oluşturulan sayı veri tabanında two_factory_verified_success bölümüne kaydedilecek
+        //ve bu oluşturulan sayı mail ile kullanıcıya iletilecek
+        //ve bu işlem kullanıcı her yeni giriş yaptığın da tekrarlanacak
+        //TO DO LIST
     }
 
     public function AccountVerified(Request $request)
@@ -158,17 +178,14 @@ class UsersController extends Controller
             $user->email = $request->input('email');
             $user->save();
 
-            if($user)
-            {
+            if ($user) {
                 return redirect()
                     ->route('users.index')
                     ->with('success', 'Kayıt günceleme işlemi başarıyla tamamlandı!');
-            }
-            else
-            {
+            } else {
                 return redirect()
-                ->route('users.index')
-                ->with('error', 'Kayıt Güncelleme İşlemi Tamamlanamadı!');
+                    ->route('users.index')
+                    ->with('error', 'Kayıt Güncelleme İşlemi Tamamlanamadı!');
 
             }
 
@@ -178,7 +195,6 @@ class UsersController extends Controller
                 ->route('users.index')
                 ->with('error', 'Bilinmeyen Bir Hata  Oluştu Lütfen Sistem Yöneticisine Bildiriniz!');
         }
-
 
 
     }

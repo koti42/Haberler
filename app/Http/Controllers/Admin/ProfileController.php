@@ -36,8 +36,8 @@ class ProfileController extends Controller
         $user->email = $request->input('email');
         $user->position = $request->input('Position');
         $user->Experience = $request->input('experience');
-        $user->Skils = $request->input('skils'); // skils veri tabanındaki adını 'skills' diye değiştirdim hata alırsan migrateden sonra
-        $user->two_factor_authentication = $request->input('two_factory');
+        $user->Skills = $request->input('Skills');
+        $user->two_factor_authentication = $request->input('TwoAuth2');
 
 
         if($image = $request->file('image')) {

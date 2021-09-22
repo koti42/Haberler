@@ -229,22 +229,21 @@
                                         <div class="form-group row">
                                             <label for="inputSkills" class="col-sm-2 col-form-label">Yetenekler</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="skils"value="{{$data->Skils}}" id="inputSkills" placeholder="Yetenekler">
+                                                <input type="text" class="form-control" name="Skills"value="{{$data->Skills}}" id="inputSkills" placeholder="Yetenekler">
                                             </div>
                                         </div>
+
 
                                         <div class="form-group row">
                                             <label for="inputAuth" class="col-sm-2 col-form-label">İki Adımlı Doğrulama</label>
                                             <div class="col-sm-10">
-                                                <select name="two_factory" style="background: #f1f1f1" class="form-control">
                                                     @if($data->two_factor_authentication)
-                                                    <option style="background-color: #f1f1f1" selected="selected" value="1">Açık</option>
-                                                    <option style="background-color: #f1f1f1" value="0">Kapalı</option>
+                                                    <input type="hidden"  value="0" class="toggle-class" id="CheckTwoAuth" name="TwoAuth2"  checked data-toggle="toggle" data-on="Açık" data-off="Kapalı"data-onstyle="success" data-offstyle="danger" data-width="90">
+                                                    <input type="checkbox" value="1" id="toggle-demo" class="toggle-class" id="CheckTwoAuth" name="TwoAuth2"  checked data-toggle="toggle" data-on="Açık" data-off="Kapalı"data-onstyle="success" data-offstyle="danger" data-width="90">
                                                     @else
-                                                        <option style="background-color: #f1f1f1" value="1">Açık</option>
-                                                        <option style="background-color: #f1f1f1"selected="selected"  value="0">Kapalı</option>
+                                                    <input type="hidden"  value="0" class="toggle-class" id="CheckTwoAuth" name="TwoAuth2"  checked data-toggle="toggle" data-on="Açık" data-off="Kapalı"data-onstyle="success" data-offstyle="danger" data-width="90">
+                                                    <input type="checkbox" value="1" id="toggle-demo2" class="toggle-class" id="CheckTwoAuth" name="TwoAuth2"  checked data-toggle="toggle" data-on="Açık" data-off="Kapalı"data-onstyle="success" data-offstyle="danger" data-width="90">
                                                     @endif
-                                                </select>
                                             </div>
                                         </div>
 
@@ -270,4 +269,8 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     <!-- /.content -->
+<script>
+    $('#toggle-demo').bootstrapToggle('on')
+    $('#toggle-demo2').bootstrapToggle('off')
+</script>
 @endsection

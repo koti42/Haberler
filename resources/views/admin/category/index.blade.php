@@ -131,6 +131,8 @@
 
 <script>
     const deger = document.getElementById('cat_name');
+
+
     const sonuc = document.getElementById('cat_slug');
 
     const degerYakala = function(e) {

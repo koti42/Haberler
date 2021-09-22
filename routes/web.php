@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 //Front Route start
 Route::get('/', [NewsController::class, 'index'])->name('Main');
-
-
 //Front Route finish
 
 
@@ -31,6 +29,7 @@ Route::get('/redirect', [DefaultController::class, 'redirectToProvider'])->name(
 Route::get('/callback', [DefaultController::class, 'handleProviderCallback']);
 Route::get('/login', [DefaultController::class, 'login'])->name('Admin.login')->middleware('Login');
 Route::post('/login', [DefaultController::class, 'authenticate'])->name('Admin.authenticate');
+Route::post('/TwoFactory',[UsersController::class,'twoFactory'])->name('twoFactoryAuth');
 
 //Şifre Sıfırlama Routeları
 Route::prefix('/password/reset')->group(function () {
@@ -52,6 +51,9 @@ if (Auth::check()) {
 
 //Admin kontrol paneli route tanımları
 Route::prefix('admin')->group(function () {
+    //giriş çıkış route
+    Route::get('/exit', [DashbordController::class, 'exit'])->name('admin.exit');
+    //giriş çıkış route bitiş
     Route::middleware(['Adminn'])->group(function () {
         Route::get('/', [DashbordController::class, 'index'])->name('admin.dashboard');
         Route::get('/new', [NewController::class, 'index'])->name('admin.new');
@@ -66,9 +68,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/profile/profileSave', [ProfileController::class, 'update'])->name('profilesCreate');
 
 
-        //giriş çıkış route
-        Route::get('/exit', [DashbordController::class, 'exit'])->name('admin.exit');
-        //giriş çıkış route bitiş
 
 
         //google giriş-çıkış route

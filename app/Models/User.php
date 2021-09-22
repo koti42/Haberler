@@ -27,6 +27,8 @@ class User extends Authenticatable
         'email_verified_success',
         'email_verified_at',
         'ProfilePicture',
+        'two_factory_verified_control',
+        'two_factory_verified_success',
     ];
 
     /**

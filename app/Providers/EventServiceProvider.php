@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\TwoFactoryUsers;
 use App\Events\UsersAdded;
 use App\Listeners\SendUsersMail;
+use App\Listeners\TwoFactoryUsersListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UsersAdded::class=>[
             SendUsersMail::class,
+        ],
+        TwoFactoryUsers::class=>[
+            TwoFactoryUsersListener::class,
         ],
     ];
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\TwoFactoryUsers;
+use App\Events\UsersAdded;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -9,16 +11,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
+use Nette\Utils\Random;
 use Throwable;
 
 class DefaultController extends Controller
 {
     public function index()
     {
-
-
         return view('index');
-
     }
 
     public function login()
@@ -110,7 +110,25 @@ class DefaultController extends Controller
         //yukarıda ki aldığımız değişkenini Attempt edip içine gönderdiğimiz de login kontrolümüz gerçekleşliyor
         //ona göre giriş yapabilir veya şifre yanlış mesajı ekrana basabiliriz.
         if (Auth::attempt($credentials, $remember_me)) {
-            return redirect()->intended(route('admin.dashboard'));
+            if(Auth::user()->two_factor_authentication)
+            {
+                $TwoFactorySuccess= random_int(100000,999999);
+                $data=Auth::user()->id;
+                $data = User::where('id', $data)->first();
+                $data->two_factory_verified_success=$TwoFactorySuccess;
+                $data->save();
+                if($data)
+                {
+                    event(new TwoFactoryUsers($data));
+                    return view('admin.TwoFactory.index');
+                }
+
+            }
+            else
+            {
+                return redirect()->intended(route('admin.dashboard'));
+            }
+
         } else {
             //error'u login kısımına buradan gönderiyoruz.
             return redirect(route('Admin.login'))->with('error', 'Giriş Yapılamadı!');

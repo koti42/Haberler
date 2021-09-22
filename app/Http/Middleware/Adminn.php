@@ -24,9 +24,27 @@ class Adminn
         if (CheckDbConnection()) {
             if (auth()->check()) {
                 $roles = auth()->user()->roles()->get();
+                $TwoFactory= Auth::user()->two_factory_verified_control;
+                $TwoFactory2= Auth::user()->two_factory_verified_success;
                 foreach ($roles as $role) {
                     if ($role->is_show_admin == 1) {
-                        return $next($request);
+                        if(Auth::user()->two_factor_authentication)
+                        {
+                            if($TwoFactory==$TwoFactory2)
+                            {
+                                return $next($request);
+                            }
+                            else
+                            {
+                                Auth::logout();
+                                return redirect(route('Admin.login'));
+                            }
+                        }
+                        else
+                        {
+                            return $next($request);
+                        }
+
                     } else {
                         return back()->with('error', 'Bu Sayfaya Erişim Yetkiniz Yok!');
                     }

@@ -8,7 +8,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UsersAdded
+class TwoFactoryUsers
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -17,10 +17,9 @@ class UsersAdded
      *
      * @return void
      */
-    public function __construct(User $dataa)
+    public function __construct(User $data)
     {
-        $this->User=$dataa;
-
+       $this->User=$data;
     }
 
     /**
