@@ -104,7 +104,7 @@ class Helper
         $admin_role = Role::whereName('admin')->first();
         $system_admin_role = Role::whereName('System-Admin')->first();
 
-        $admin_user = User::whereEmail('medine@medine.com.tr')->first();
+        $admin_user = User::whereEmail('medinewolf@gmail.com')->first();
         $system_admin = User::whereEmail('mehmet@mehmetkucukcelebi.com.tr')->first();
 
         $editor_role = Role::whereName('Editor')->first();

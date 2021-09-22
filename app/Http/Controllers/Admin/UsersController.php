@@ -106,22 +106,18 @@ class UsersController extends Controller
 
     public function twoFactory(Request $request)
     {
-
-        $user = Auth::user()->id;
-        $data = User::where('id', $user)->first();
-        $otp = implode('', $request->input('pincode'));
-        if($data)
+        if(Auth::check())
         {
-            $data->two_factory_verified_control =$otp;
-            $data->save();
+            $user = Auth::user()->id;
+            $data = User::where('id', $user)->first();
+            $otp = implode('', $request->input('pincode'));
+            if($data)
+            {
+                $data->two_factory_verified_control =$otp;
+                $data->save();
+            }
+            return redirect(route('admin.dashboard'));
         }
-        return redirect(route('admin.dashboard'));
-        //TO DO LIST
-        //random 6 haneli bir sayı oluşturulacak
-        //random oluşturulan sayı veri tabanında two_factory_verified_success bölümüne kaydedilecek
-        //ve bu oluşturulan sayı mail ile kullanıcıya iletilecek
-        //ve bu işlem kullanıcı her yeni giriş yaptığın da tekrarlanacak
-        //TO DO LIST
     }
 
     public function AccountVerified(Request $request)
